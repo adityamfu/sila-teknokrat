@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../../controllers/auth_controller.dart';
@@ -7,7 +6,8 @@ import '../../../routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final cAuth = Get.find<AuthController>();
+  final AuthController cAuth = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +35,16 @@ class LoginView extends GetView<LoginController> {
               height: 10,
             ),
             ElevatedButton(
-              onPressed: () =>
-                  cAuth.login(controller.cEmail.text, controller.cPass.text),
+              onPressed: () async {
+                bool loginResult = await cAuth.login(
+                    controller.cEmail.text, controller.cPass.text);
+
+                if (loginResult) {
+                  print('login succes');
+                } else {
+                  print('login error');
+                }
+              },
               child: Text("Login"),
             ),
             SizedBox(

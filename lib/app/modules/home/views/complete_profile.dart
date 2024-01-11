@@ -151,7 +151,12 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  saveUserData();
+                  if (formKey.currentState?.validate() ?? false) {
+                    // The form is valid, proceed with saving user data
+                    saveUserData();
+                  } else {
+                    // The form is not valid, display an error or take appropriate action
+                  }
                 },
                 child: Text("Simpan"),
               ),

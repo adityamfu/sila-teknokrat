@@ -1,6 +1,7 @@
 // auth_controller.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/user_model.dart';
 
@@ -9,6 +10,15 @@ class AuthController extends GetxController {
 
   Rx<User?> firebaseUser = Rx<User?>(null);
   Rx<UserData?> userData = Rx<UserData?>(null);
+  RxString error = RxString('');
+
+  void setError(String message) {
+    error.value = message;
+  }
+
+  void clearError() {
+    error.value = '';
+  }
 
   @override
   void onInit() {
@@ -25,7 +35,7 @@ class AuthController extends GetxController {
 
   Stream<User?> get streamAuthStatus => auth.authStateChanges();
 
-  void signup(String emailAddress, String password) async {
+Future<bool> signup(String emailAddress, String password) async {
     try {
       UserCredential myUser = await auth.createUserWithEmailAndPassword(
         email: emailAddress,
@@ -36,85 +46,154 @@ class AuthController extends GetxController {
         title: "Verifikasi email",
         middleText: "Kami telah mengirimkan verifikasi ke email $emailAddress.",
         onConfirm: () {
-          Get.back(); //close dialog
-          Get.back(); //login
+          Get.back(); // close dialog
+          Get.back(); // login
         },
         textConfirm: "OK",
       );
+      return true; // Signup success
     } on FirebaseAuthException catch (e) {
+      String errorMessage = '';
+
       if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
+        errorMessage = 'The account already exists for that email.';
         print('The account already exists for that email.');
+      } else {
+        errorMessage = 'An error occurred: ${e.message}';
+        print('Error during signup: ${e.message}');
       }
+
+      Get.snackbar(
+        'Signup Error',
+        errorMessage,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false; // Signup failed
     } catch (e) {
       print(e);
+      return false; // Signup failed
     }
   }
 
-  void lgin(String emailAddress, String password) async {
+  Future<bool> login(String emailAddress, String password) async {
     try {
       UserCredential myUser = await auth.signInWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
 
-      if (myUser.user!.emailVerified) {
-        // Load user data when the authentication status changes
-        await loadUserData();
-
-        if (userData.value != null) {
-          Get.offAllNamed('/home');
-        } else {
-          Get.offAllNamed('/user_data_form');
-        }
-      } else {
-        Get.defaultDialog(
-          title: "Verifikasi email",
-          middleText: "Harap verifikasi email terlebih dahulu",
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      // Handle login exceptions
-      print("Login error: $e");
-      // You might want to display an error message to the user
-    }
-  }
-
-  void login(String emailAddress, String password) async {
-    try {
-      UserCredential myUser = await auth.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
-      );
       if (myUser.user!.emailVerified) {
         if (await userDataIsComplete(myUser.user!.email!)) {
           Get.offAllNamed('/home');
         } else {
           Get.offAllNamed('/user_data_form');
         }
+        return true; // Login success
       } else {
         Get.defaultDialog(
           title: "Verifikasi email",
           middleText: "Harap verifikasi email terlebih dahulu",
         );
+        return false; // Email not verified
       }
     } on FirebaseAuthException catch (e) {
+      String errorMessage = '';
+
       if (e.code == 'user-not-found') {
-        Get.defaultDialog(
-          title: "Terjadi kesalahan",
-          middleText: "No user found for that email.",
-        );
+        errorMessage = "No user found for that email.";
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        Get.defaultDialog(
-          title: "Terjadi kesalahan",
-          middleText: "Wrong password provided for that user.",
-        );
+        errorMessage = "Wrong password provided for that user.";
         print('Wrong password provided for that user.');
+      } else {
+        errorMessage = "An error occurred: ${e.message}";
+        print('Error during login: ${e.message}');
       }
+
+      Get.snackbar(
+        'Login Error',
+        errorMessage,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false; // Login failed
     }
   }
+  // void signup(String emailAddress, String password) async {
+  //   try {
+  //     UserCredential myUser = await auth.createUserWithEmailAndPassword(
+  //       email: emailAddress,
+  //       password: password,
+  //     );
+  //     await myUser.user!.sendEmailVerification();
+  //     Get.defaultDialog(
+  //       title: "Verifikasi email",
+  //       middleText: "Kami telah mengirimkan verifikasi ke email $emailAddress.",
+  //       onConfirm: () {
+  //         Get.back(); //close dialog
+  //         Get.back(); //login
+  //       },
+  //       textConfirm: "OK",
+  //     );
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'weak-password') {
+  //       print('The password provided is too weak.');
+  //     } else if (e.code == 'email-already-in-use') {
+  //       print('The account already exists for that email.');
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // Future<void> login(String emailAddress, String password) async {
+  //   try {
+  //     UserCredential myUser = await auth.signInWithEmailAndPassword(
+  //       email: emailAddress,
+  //       password: password,
+  //     );
+
+  //     if (myUser.user!.emailVerified) {
+  //       if (await userDataIsComplete(myUser.user!.email!)) {
+  //         Get.offAllNamed('/home');
+  //       } else {
+  //         Get.offAllNamed('/user_data_form');
+  //       }
+  //     } else {
+  //       Get.defaultDialog(
+  //         title: "Verifikasi email",
+  //         middleText: "Harap verifikasi email terlebih dahulu",
+  //       );
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     String errorMessage = '';
+
+  //     if (e.code == 'user-not-found') {
+  //       errorMessage = "No user found for that email.";
+  //       print('No user found for that email.');
+  //     } else if (e.code == 'wrong-password') {
+  //       errorMessage = "Wrong password provided for that user.";
+  //       print('Wrong password provided for that user.');
+  //     } else {
+  //       errorMessage = "An error occurred: ${e.message}";
+  //       print('Error during login: ${e.message}');
+  //     }
+
+  //     Get.snackbar(
+  //       'Login Error',
+  //       errorMessage,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //     );
+  //   }
+  // }
 
   Future<bool> userDataIsComplete(String email) async {
     try {
