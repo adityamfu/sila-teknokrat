@@ -72,6 +72,16 @@ class SuratView extends StatelessWidget {
               if (suratController.isLoading.value) {
                 return CircularProgressIndicator();
               } else {
+                final bool isProfileComplete =
+                    authController.userData.value != null;
+
+                if (!isProfileComplete) {
+                  return Center(
+                    child: Text(
+                        'Belum melengkapi profil. Silakan lengkapi profil Anda.'),
+                  );
+                }
+
                 suratController.suratIzinSkripsiList
                     .sort((a, b) => b.createdAt.compareTo(a.createdAt));
                 suratController.suratIzinPenelitianList
