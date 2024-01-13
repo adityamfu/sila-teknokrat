@@ -19,8 +19,8 @@ class SuratController extends GetxController {
   Rx<User?> firebaseUser = Rx<User?>(null);
 
   List<String> untukList = [
-    'OrangTua',
     'Mahasiswa',
+    'OrangTua',
   ];
 
   List<String> jenisSuratList = [
@@ -32,7 +32,7 @@ class SuratController extends GetxController {
   RxBool validateTanggalSidang = false.obs;
   RxString selectedWidget = RxString('');
   RxString selectedJenisSurat = RxString('Surat Keterangan Kuliah');
-  RxString selectedUntuk = RxString('OrangTua');
+  RxString selectedUntuk = RxString('Mahasiswa');
   TextEditingController tingkatController = TextEditingController();
   TextEditingController keperluanController = TextEditingController();
   TextEditingController namaOrangTuaController = TextEditingController();
@@ -145,10 +145,10 @@ class SuratController extends GetxController {
       isLoading.value = false;
       // Print data di console
       suratIzinSkripsiList.forEach((surat) {
-        print('Judul Skripsi: ${surat.judulSkripsi}');
+        print('Success fetching Surat history');
       });
     } catch (error) {
-      print('Error fetching Surat history: $error');
+      print('Error fetching Surat history: $error!');
     }
   }
 
@@ -194,13 +194,12 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
-        Get.to(SuratView());
         Get.snackbar(
             'Berhasil', 'Surat Izin Penelitian berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Izin Penelitian to Firestore: $error');
-      Get.to(SuratView());
+      Get.back();
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Izin Penelitian ke Firestore');
     }
@@ -246,13 +245,13 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
-        Get.to(SuratView());
+
         Get.snackbar(
             'Berhasil', 'Surat Izin Skripsi berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Izin Skripsi to Firestore: $error');
-      Get.to(SuratView());
+      Get.back();
       Get.snackbar('Error', 'Gagal menyimpan Surat Izin Skripsi ke Firestore');
     }
   }
@@ -301,13 +300,12 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
-        Get.to(SuratView());
         Get.snackbar('Berhasil',
             'Surat Keterangan Kuliah berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Keterangan Kuliah to Firestore: $error');
-      Get.to(SuratView());
+      Get.back();
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Keterangan Kuliah ke Firestore');
     }
@@ -355,13 +353,12 @@ class SuratController extends GetxController {
         formKey.currentState?.reset();
         validateTanggalSidang.value = false;
         await fetchSuratHistory();
-        Get.to(SuratView());
         Get.snackbar('Berhasil',
             'Surat Keterangan Lulus berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Keterangan Lulus to Firestore: $error');
-      Get.to(SuratView());
+      Get.back();
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Keterangan Lulus ke Firestore');
     }

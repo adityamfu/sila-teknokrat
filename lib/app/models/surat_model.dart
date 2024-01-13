@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SuratModel {
   String jenisSurat;
   String status;
+  DateTime createdAt;
 
   SuratModel({
     required this.jenisSurat,
     required this.status,
+    required this.createdAt,
   });
 
   // Factory constructor to create an instance from a map
@@ -12,6 +16,7 @@ class SuratModel {
     return SuratModel(
       jenisSurat: map['jenisSurat'],
       status: map['status'],
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
     );
   }
 
@@ -20,6 +25,7 @@ class SuratModel {
     return {
       'jenisSurat': jenisSurat,
       'status': status,
+      'createdAt': createdAt,
     };
   }
 }

@@ -36,42 +36,41 @@ class SuratKeteranganKuliahFields extends StatelessWidget {
             decoration: InputDecoration(labelText: 'Untuk'),
           ),
           if (suratController.shouldShowAdditionalFieldsBasedOnUntuk.value) ...[
-            TextFormField(
-              controller: suratController.namaOrangTuaController,
-              decoration: InputDecoration(labelText: 'Nama Orang Tua'),
-              validator: (value) {
-                if (suratController
-                        .shouldShowAdditionalFieldsBasedOnUntuk.value &&
-                    (value == null || value.isEmpty)) {
-                  return 'Nama Orang Tua wajib diisi';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: suratController.pekerjaanOrangTuaController,
-              decoration: InputDecoration(labelText: 'Pekerjaan Orang Tua'),
-              validator: (value) {
-                if (suratController
-                        .shouldShowAdditionalFieldsBasedOnUntuk.value &&
-                    (value == null || value.isEmpty)) {
-                  return 'Pekerjaan Orang Tua wajib diisi';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: suratController.instansiOrangTuaController,
-              decoration: InputDecoration(labelText: 'Instansi Orang Tua'),
-              validator: (value) {
-                if (suratController
-                        .shouldShowAdditionalFieldsBasedOnUntuk.value &&
-                    (value == null || value.isEmpty)) {
-                  return 'Instansi Orang Tua wajib diisi';
-                }
-                return null;
-              },
-            ),
+            if (suratController.selectedUntuk.value == 'OrangTua') ...[
+              TextFormField(
+                controller: suratController.namaOrangTuaController,
+                decoration: InputDecoration(labelText: 'Nama Orang Tua'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Nama Orang Tua wajib diisi';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: suratController.pekerjaanOrangTuaController,
+                decoration: InputDecoration(labelText: 'Pekerjaan Orang Tua'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Pekerjaan Orang Tua wajib diisi';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: suratController.instansiOrangTuaController,
+                decoration: InputDecoration(labelText: 'Instansi Orang Tua'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Instansi Orang Tua wajib diisi';
+                  }
+                  return null;
+                },
+              ),
+            ],
+            if (suratController.selectedUntuk.value == 'Mahasiswa') ...[
+              // Add additional fields specific for 'Mahasiswa' if needed
+            ],
           ],
           TextFormField(
             controller: suratController.keperluanController,

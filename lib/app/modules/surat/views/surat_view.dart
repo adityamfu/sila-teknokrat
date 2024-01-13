@@ -72,6 +72,15 @@ class SuratView extends StatelessWidget {
               if (suratController.isLoading.value) {
                 return CircularProgressIndicator();
               } else {
+                suratController.suratIzinSkripsiList
+                    .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                suratController.suratIzinPenelitianList
+                    .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                suratController.suratKeteranganKuliahList
+                    .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                suratController.suratKeteranganLulusList
+                    .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
                 return (suratController.suratIzinSkripsiList.isNotEmpty ||
                         suratController.suratIzinPenelitianList.isNotEmpty ||
                         suratController.suratKeteranganKuliahList.isNotEmpty ||
