@@ -11,7 +11,15 @@ class AuthController extends GetxController {
   Rx<User?> firebaseUser = Rx<User?>(null);
   Rx<UserData?> userData = Rx<UserData?>(null);
   RxString error = RxString('');
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController namaController = TextEditingController();
+  final TextEditingController npmController = TextEditingController();
+  final TextEditingController agamaController = TextEditingController();
+  final TextEditingController jenisKelaminController = TextEditingController();
+  final TextEditingController noTeleponController = TextEditingController();
+  final TextEditingController prodiController = TextEditingController();
+  final TextEditingController tempatLahirController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
   void setError(String message) {
     error.value = message;
   }
@@ -35,7 +43,7 @@ class AuthController extends GetxController {
 
   Stream<User?> get streamAuthStatus => auth.authStateChanges();
 
-Future<bool> signup(String emailAddress, String password) async {
+  Future<bool> signup(String emailAddress, String password) async {
     try {
       UserCredential myUser = await auth.createUserWithEmailAndPassword(
         email: emailAddress,
@@ -125,75 +133,6 @@ Future<bool> signup(String emailAddress, String password) async {
       return false; // Login failed
     }
   }
-  // void signup(String emailAddress, String password) async {
-  //   try {
-  //     UserCredential myUser = await auth.createUserWithEmailAndPassword(
-  //       email: emailAddress,
-  //       password: password,
-  //     );
-  //     await myUser.user!.sendEmailVerification();
-  //     Get.defaultDialog(
-  //       title: "Verifikasi email",
-  //       middleText: "Kami telah mengirimkan verifikasi ke email $emailAddress.",
-  //       onConfirm: () {
-  //         Get.back(); //close dialog
-  //         Get.back(); //login
-  //       },
-  //       textConfirm: "OK",
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       print('The password provided is too weak.');
-  //     } else if (e.code == 'email-already-in-use') {
-  //       print('The account already exists for that email.');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // Future<void> login(String emailAddress, String password) async {
-  //   try {
-  //     UserCredential myUser = await auth.signInWithEmailAndPassword(
-  //       email: emailAddress,
-  //       password: password,
-  //     );
-
-  //     if (myUser.user!.emailVerified) {
-  //       if (await userDataIsComplete(myUser.user!.email!)) {
-  //         Get.offAllNamed('/home');
-  //       } else {
-  //         Get.offAllNamed('/user_data_form');
-  //       }
-  //     } else {
-  //       Get.defaultDialog(
-  //         title: "Verifikasi email",
-  //         middleText: "Harap verifikasi email terlebih dahulu",
-  //       );
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     String errorMessage = '';
-
-  //     if (e.code == 'user-not-found') {
-  //       errorMessage = "No user found for that email.";
-  //       print('No user found for that email.');
-  //     } else if (e.code == 'wrong-password') {
-  //       errorMessage = "Wrong password provided for that user.";
-  //       print('Wrong password provided for that user.');
-  //     } else {
-  //       errorMessage = "An error occurred: ${e.message}";
-  //       print('Error during login: ${e.message}');
-  //     }
-
-  //     Get.snackbar(
-  //       'Login Error',
-  //       errorMessage,
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       backgroundColor: Colors.red,
-  //       colorText: Colors.white,
-  //     );
-  //   }
-  // }
 
   Future<bool> userDataIsComplete(String email) async {
     try {

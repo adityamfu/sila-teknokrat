@@ -3,18 +3,13 @@ import 'package:get/get.dart';
 import 'package:silateknokrat/app/modules/home/views/complete_profile.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../dashboard/views/dashboard_view.dart';
-import '../../dosen/views/dosen_add_view.dart';
-import '../../dosen/views/dosen_view.dart';
-import '../../karyawan/views/karyawan_add_view.dart';
-import '../../karyawan/views/karyawan_view.dart';
-import '../../mahasiswa/views/mahasiswa_add_view.dart';
-import '../../mahasiswa/views/mahasiswa_view.dart';
 import '../../profile/views/profile_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    // Get.put(SuratController());
     return DasboardAdmin();
   }
 }
@@ -33,20 +28,13 @@ class _DasboardAdminState extends State<DasboardAdmin> {
     {
       'title': 'Dashboard',
       'view': DashboardView(),
-      'add': () => MahasiswaAddView()
+      'add': () => DashboardView(),
     },
     {
-      'title': 'Data Mahasiswa',
-      'view': MahasiswaView(),
-      'add': () => MahasiswaAddView()
-    },
-    {'title': 'Data Dosen', 'view': DosenView(), 'add': () => DosenAddView()},
-    {
-      'title': 'Data Karyawan',
-      'view': KaryawanView(),
-      'add': () => KaryawanAddView()
-    },
-    {'title': 'Profile', 'view': ProfileView(), 'add': () => UserDataFormPage()}
+      'title': 'Profile',
+      'view': ProfileView(),
+      'add': () => UserDataFormPage(),
+    }
   ];
   @override
   Widget build(BuildContext context) {
@@ -119,39 +107,6 @@ class _DasboardAdminState extends State<DasboardAdmin> {
           ListTile(
             onTap: () {
               setState(() => _index = 1);
-              Get.back();
-            },
-            leading: Icon(Icons.people),
-            title: Text('Data Mahasiswa'),
-            trailing: Icon(Icons.navigate_next),
-            iconColor: Colors.teal,
-            textColor: Colors.teal,
-          ),
-          ListTile(
-            onTap: () {
-              setState(() => _index = 2);
-              Get.back();
-            },
-            leading: Icon(Icons.people),
-            title: Text('Data Dosen'),
-            trailing: Icon(Icons.navigate_next),
-            iconColor: Colors.teal,
-            textColor: Colors.teal,
-          ),
-          ListTile(
-            onTap: () {
-              setState(() => _index = 3);
-              Get.back();
-            },
-            leading: Icon(Icons.people),
-            title: Text('Karyawan 21312103'),
-            trailing: Icon(Icons.navigate_next),
-            iconColor: Colors.teal,
-            textColor: Colors.teal,
-          ),
-          ListTile(
-            onTap: () {
-              setState(() => _index = 4);
               Get.back();
             },
             leading: Icon(Icons.people),

@@ -11,15 +11,6 @@ class UserDataFormPage extends StatefulWidget {
 
 class _UserDataFormPageState extends State<UserDataFormPage> {
   final AuthController authController = Get.find<AuthController>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController namaController = TextEditingController();
-  final TextEditingController npmController = TextEditingController();
-  final TextEditingController agamaController = TextEditingController();
-  final TextEditingController jenisKelaminController = TextEditingController();
-  final TextEditingController noTeleponController = TextEditingController();
-  final TextEditingController prodiController = TextEditingController();
-  final TextEditingController tempatLahirController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
 
   List<String> agamaList = ["Islam", "Kristen", "Hindu", "Buddha", "Lainnya"];
   String selectedAgama = "Islam";
@@ -34,14 +25,14 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
     // Load existing user data if available
     if (authController.userData.value != null) {
       UserData userData = authController.userData.value!;
-      namaController.text = userData.nama;
-      npmController.text = userData.npm;
-      agamaController.text = userData.agama;
-      jenisKelaminController.text = userData.jenisKelamin;
-      noTeleponController.text = userData.noTelepon;
-      prodiController.text = userData.prodi;
-      tempatLahirController.text = userData.tempatLahir;
-      selectedDate = userData.tanggalLahir;
+      authController.namaController.text = userData.nama;
+      authController.npmController.text = userData.npm;
+      authController.agamaController.text = userData.agama;
+      authController.jenisKelaminController.text = userData.jenisKelamin;
+      authController.noTeleponController.text = userData.noTelepon;
+      authController.prodiController.text = userData.prodi;
+      authController.tempatLahirController.text = userData.tempatLahir;
+      authController.selectedDate = userData.tanggalLahir;
       selectedAgama = userData.agama;
       selectedJenisKelamin = userData.jenisKelamin;
     } else {
@@ -59,11 +50,11 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: formKey,
+          key: authController.formKey,
           child: Column(
             children: [
               TextFormField(
-                controller: namaController,
+                controller: authController.namaController,
                 decoration: InputDecoration(labelText: 'Nama'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -73,7 +64,7 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
                 },
               ),
               TextFormField(
-                controller: npmController,
+                controller: authController.npmController,
                 decoration: InputDecoration(labelText: 'NPM'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -113,7 +104,7 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
                 decoration: InputDecoration(labelText: 'Jenis Kelamin'),
               ),
               TextFormField(
-                controller: noTeleponController,
+                controller: authController.noTeleponController,
                 decoration: InputDecoration(labelText: 'Nomor Telepon'),
                 validator: (value) {
                   // Add phone number validation logic as needed
@@ -121,7 +112,7 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
                 },
               ),
               TextFormField(
-                controller: prodiController,
+                controller: authController.prodiController,
                 decoration: InputDecoration(labelText: 'Program Studi'),
                 validator: (value) {
                   // Add program study validation logic as needed
@@ -129,7 +120,7 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
                 },
               ),
               TextFormField(
-                controller: tempatLahirController,
+                controller: authController.tempatLahirController,
                 decoration: InputDecoration(labelText: 'Tempat Lahir'),
                 validator: (value) {
                   // Add birthplace validation logic as needed
@@ -139,7 +130,8 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
               Row(
                 children: [
                   Text(
-                    "Tanggal Lahir: ${selectedDate.toLocal()}".split(' ')[0],
+                    "Tanggal Lahir: ${authController.selectedDate.toLocal()}"
+                        .split(' ')[0],
                   ),
                   SizedBox(width: 10.0),
                   ElevatedButton(
@@ -151,7 +143,8 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  if (formKey.currentState?.validate() ?? false) {
+                  if (authController.formKey.currentState?.validate() ??
+                      false) {
                     // The form is valid, proceed with saving user data
                     saveUserData();
                   } else {
@@ -169,14 +162,14 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
 
   void saveUserData() async {
     final userData = UserData(
-      nama: namaController.text,
-      npm: npmController.text,
-      agama: agamaController.text,
-      jenisKelamin: jenisKelaminController.text,
-      noTelepon: noTeleponController.text,
-      prodi: prodiController.text,
-      tempatLahir: tempatLahirController.text,
-      tanggalLahir: selectedDate,
+      nama: authController.namaController.text,
+      npm: authController.npmController.text,
+      agama: authController.agamaController.text,
+      jenisKelamin: authController.jenisKelaminController.text,
+      noTelepon: authController.noTeleponController.text,
+      prodi: authController.prodiController.text,
+      tempatLahir: authController.tempatLahirController.text,
+      tanggalLahir: authController.selectedDate,
     );
 
     await authController.saveUserDataToFirestore(userData);
@@ -188,14 +181,14 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: authController.selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != authController.selectedDate) {
       setState(() {
-        selectedDate = picked;
+        authController.selectedDate = picked;
       });
     }
   }
@@ -211,14 +204,14 @@ class _UserDataFormPageState extends State<UserDataFormPage> {
         UserData userData = UserData.fromMap(
             snapshot.docs.first.data() as Map<String, dynamic>);
         setState(() {
-          namaController.text = userData.nama;
-          npmController.text = userData.npm;
-          agamaController.text = userData.agama;
-          jenisKelaminController.text = userData.jenisKelamin;
-          noTeleponController.text = userData.noTelepon;
-          prodiController.text = userData.prodi;
-          tempatLahirController.text = userData.tempatLahir;
-          selectedDate = userData.tanggalLahir;
+          authController.namaController.text = userData.nama;
+          authController.npmController.text = userData.npm;
+          authController.agamaController.text = userData.agama;
+          authController.jenisKelaminController.text = userData.jenisKelamin;
+          authController.noTeleponController.text = userData.noTelepon;
+          authController.prodiController.text = userData.prodi;
+          authController.tempatLahirController.text = userData.tempatLahir;
+          authController.selectedDate = userData.tanggalLahir;
           selectedAgama = userData.agama;
           selectedJenisKelamin = userData.jenisKelamin;
         });

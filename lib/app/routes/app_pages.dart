@@ -2,17 +2,13 @@ import 'package:get/get.dart';
 
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
-import '../modules/dosen/bindings/dosen_binding.dart';
-import '../modules/dosen/views/dosen_view.dart';
+import '../modules/surat/bindings/surat_binding.dart';
+import '../modules/surat/views/surat_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/complete_profile.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/karyawan/bindings/karyawan_binding.dart';
-import '../modules/karyawan/views/karyawan_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/mahasiswa/bindings/mahasiswa_binding.dart';
-import '../modules/mahasiswa/views/mahasiswa_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
@@ -25,7 +21,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -50,19 +46,9 @@ class AppPages {
       binding: ResetPasswordBinding(),
     ),
     GetPage(
-      name: _Paths.MAHASISWA,
-      page: () => MahasiswaView(),
-      binding: MahasiswaBinding(),
-    ),
-    GetPage(
-      name: _Paths.DOSEN,
-      page: () => DosenView(),
-      binding: DosenBinding(),
-    ),
-    GetPage(
-      name: _Paths.KARYAWAN,
-      page: () => KaryawanView(),
-      binding: KaryawanBinding(),
+      name: _Paths.SURAT,
+      page: () => SuratView(),
+      binding: SuratBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -71,7 +57,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DASHBOARD,
-      page: () => const DashboardView(),
+      page: () => DashboardView(),
       binding: DashboardBinding(),
     ),
   ];
