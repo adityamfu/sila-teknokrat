@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:silateknokrat/app/modules/surat/views/surat_view.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../models/surat_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,11 +97,11 @@ class SuratController extends GetxController {
       isLoading.value = true;
 
       String currentUserEmail = FirebaseAuth.instance.currentUser?.email ?? "";
-
+      int subcollectionIndex = 1;
       var querySnapshotSkripsi = await FirebaseFirestore.instance
           .collection('surat_izin_skripsi')
           .doc(currentUserEmail)
-          .collection('surats')
+          .collection('surats ke $subcollectionIndex')
           .get();
       suratIzinSkripsiList.value = querySnapshotSkripsi.docs
           .map((doc) => SuratIzinSkripsiModel.fromMap(
@@ -111,7 +112,7 @@ class SuratController extends GetxController {
       var querySnapshotPenelitian = await FirebaseFirestore.instance
           .collection('surat_izin_penelitian')
           .doc(currentUserEmail)
-          .collection('surats')
+          .collection('surats ke $subcollectionIndex')
           .get();
       suratIzinPenelitianList.value = querySnapshotPenelitian.docs
           .map((doc) => SuratIzinPenelitianModel.fromMap(
@@ -122,7 +123,7 @@ class SuratController extends GetxController {
       var querySnapshotKetKuliah = await FirebaseFirestore.instance
           .collection('surat_keterangan_kuliah')
           .doc(currentUserEmail)
-          .collection('surats')
+          .collection('surats ke $subcollectionIndex')
           .get();
       suratKeteranganKuliahList.value = querySnapshotKetKuliah.docs
           .map((doc) => SuratKeteranganKuliahModel.fromMap(
@@ -133,7 +134,7 @@ class SuratController extends GetxController {
       var querySnapshotKetLulus = await FirebaseFirestore.instance
           .collection('surat_keterangan_lulus')
           .doc(currentUserEmail)
-          .collection('surats')
+          .collection('surats ke $subcollectionIndex')
           .get();
       suratKeteranganLulusList.value = querySnapshotKetLulus.docs
           .map((doc) => SuratKeteranganLulusModel.fromMap(
@@ -178,13 +179,13 @@ class SuratController extends GetxController {
 
         String currentUserEmail =
             FirebaseAuth.instance.currentUser?.email ?? "";
-
+        int subcollectionIndex = 1;
         String documentId = "$currentDate";
 
         final newDocumentReference = FirebaseFirestore.instance
             .collection('surat_izin_penelitian')
             .doc(currentUserEmail)
-            .collection('surats')
+            .collection('surats ke $subcollectionIndex')
             .doc(documentId);
 
         await newDocumentReference.set(
@@ -193,11 +194,13 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
+        Get.to(SuratView());
         Get.snackbar(
             'Berhasil', 'Surat Izin Penelitian berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Izin Penelitian to Firestore: $error');
+      Get.to(SuratView());
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Izin Penelitian ke Firestore');
     }
@@ -228,13 +231,13 @@ class SuratController extends GetxController {
 
         String currentUserEmail =
             FirebaseAuth.instance.currentUser?.email ?? "";
-
+        int subcollectionIndex = 1;
         String documentId = "$currentDate";
 
         final newDocumentReference = FirebaseFirestore.instance
             .collection('surat_izin_skripsi')
             .doc(currentUserEmail)
-            .collection('surats')
+            .collection('surats ke $subcollectionIndex')
             .doc(documentId);
 
         await newDocumentReference.set(
@@ -243,11 +246,13 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
+        Get.to(SuratView());
         Get.snackbar(
             'Berhasil', 'Surat Izin Skripsi berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Izin Skripsi to Firestore: $error');
+      Get.to(SuratView());
       Get.snackbar('Error', 'Gagal menyimpan Surat Izin Skripsi ke Firestore');
     }
   }
@@ -281,13 +286,13 @@ class SuratController extends GetxController {
 
         String currentUserEmail =
             FirebaseAuth.instance.currentUser?.email ?? "";
-
+        int subcollectionIndex = 1;
         String documentId = "$currentDate";
 
         final newDocumentReference = FirebaseFirestore.instance
             .collection('surat_keterangan_kuliah')
             .doc(currentUserEmail)
-            .collection('surats')
+            .collection('surats ke $subcollectionIndex')
             .doc(documentId);
 
         await newDocumentReference.set(
@@ -296,11 +301,13 @@ class SuratController extends GetxController {
 
         formKey.currentState?.reset();
         await fetchSuratHistory();
+        Get.to(SuratView());
         Get.snackbar('Berhasil',
             'Surat Keterangan Kuliah berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Keterangan Kuliah to Firestore: $error');
+      Get.to(SuratView());
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Keterangan Kuliah ke Firestore');
     }
@@ -332,13 +339,13 @@ class SuratController extends GetxController {
 
         String currentUserEmail =
             FirebaseAuth.instance.currentUser?.email ?? "";
-
+        int subcollectionIndex = 1;
         String documentId = "$currentDate";
 
         final newDocumentReference = FirebaseFirestore.instance
             .collection('surat_keterangan_lulus')
             .doc(currentUserEmail)
-            .collection('surats')
+            .collection('surats ke $subcollectionIndex')
             .doc(documentId);
 
         await newDocumentReference.set(
@@ -348,11 +355,13 @@ class SuratController extends GetxController {
         formKey.currentState?.reset();
         validateTanggalSidang.value = false;
         await fetchSuratHistory();
+        Get.to(SuratView());
         Get.snackbar('Berhasil',
             'Surat Keterangan Lulus berhasil disimpan ke Firestore');
       }
     } catch (error) {
       print('Error saving Surat Keterangan Lulus to Firestore: $error');
+      Get.to(SuratView());
       Get.snackbar(
           'Error', 'Gagal menyimpan Surat Keterangan Lulus ke Firestore');
     }

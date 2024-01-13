@@ -72,115 +72,122 @@ class SuratView extends StatelessWidget {
               if (suratController.isLoading.value) {
                 return CircularProgressIndicator();
               } else {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('No')),
-                      DataColumn(label: Text('Create At')),
-                      DataColumn(label: Text('Jenis Surat')),
-                      DataColumn(label: Text('Action')),
-                    ],
-                    rows: [
-                      ...suratController.suratIzinSkripsiList.map(
-                        (surat) {
-                          int index = indexCounter++;
-                          return DataRow(
-                            cells: [
-                              DataCell(Text('$index')),
-                              DataCell(
-                                Text(
-                                  _formatDateTime(surat.createdAt),
-                                ),
-                              ),
-                              DataCell(Text(surat.jenisSurat)),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // Implement action for Surat Izin Skripsi
-                                  },
-                                  child: Text("Detail"),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      ...suratController.suratIzinPenelitianList.map(
-                        (surat) {
-                          int index = indexCounter++;
-                          return DataRow(
-                            cells: [
-                              DataCell(Text('$index')),
-                              DataCell(
-                                Text(
-                                  _formatDateTime(surat.createdAt),
-                                ),
-                              ),
-                              DataCell(Text(surat.jenisSurat)),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // Implement action for Surat Izin Skripsi
-                                  },
-                                  child: Text("Detail"),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      ...suratController.suratKeteranganKuliahList.map(
-                        (surat) {
-                          int index = indexCounter++;
-                          return DataRow(
-                            cells: [
-                              DataCell(Text('$index')),
-                              DataCell(
-                                Text(
-                                  _formatDateTime(surat.createdAt),
-                                ),
-                              ),
-                              DataCell(Text(surat.jenisSurat)),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // Implement action for Surat Izin Skripsi
-                                  },
-                                  child: Text("Detail"),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      ...suratController.suratKeteranganLulusList.map(
-                        (surat) {
-                          int index = indexCounter++;
-                          return DataRow(
-                            cells: [
-                              DataCell(Text('$index')),
-                              DataCell(
-                                Text(
-                                  _formatDateTime(surat.createdAt),
-                                ),
-                              ),
-                              DataCell(Text(surat.jenisSurat)),
-                              DataCell(
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // Implement action for Surat Izin Skripsi
-                                  },
-                                  child: Text("Detail"),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                );
+                return (suratController.suratIzinSkripsiList.isNotEmpty ||
+                        suratController.suratIzinPenelitianList.isNotEmpty ||
+                        suratController.suratKeteranganKuliahList.isNotEmpty ||
+                        suratController.suratKeteranganLulusList.isNotEmpty)
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columns: const [
+                            DataColumn(label: Text('No')),
+                            DataColumn(label: Text('Create At')),
+                            DataColumn(label: Text('Jenis Surat')),
+                            DataColumn(label: Text('Action')),
+                          ],
+                          rows: [
+                            ...suratController.suratIzinSkripsiList.map(
+                              (surat) {
+                                int index = indexCounter++;
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text('$index')),
+                                    DataCell(
+                                      Text(
+                                        _formatDateTime(surat.createdAt),
+                                      ),
+                                    ),
+                                    DataCell(Text(surat.jenisSurat)),
+                                    DataCell(
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          // Implement action for Surat Izin Skripsi
+                                        },
+                                        child: Text("Detail"),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            ...suratController.suratIzinPenelitianList.map(
+                              (surat) {
+                                int index = indexCounter++;
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text('$index')),
+                                    DataCell(
+                                      Text(
+                                        _formatDateTime(surat.createdAt),
+                                      ),
+                                    ),
+                                    DataCell(Text(surat.jenisSurat)),
+                                    DataCell(
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          // Implement action for Surat Izin Skripsi
+                                        },
+                                        child: Text("Detail"),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            ...suratController.suratKeteranganKuliahList.map(
+                              (surat) {
+                                int index = indexCounter++;
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text('$index')),
+                                    DataCell(
+                                      Text(
+                                        _formatDateTime(surat.createdAt),
+                                      ),
+                                    ),
+                                    DataCell(Text(surat.jenisSurat)),
+                                    DataCell(
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          // Implement action for Surat Izin Skripsi
+                                        },
+                                        child: Text("Detail"),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            ...suratController.suratKeteranganLulusList.map(
+                              (surat) {
+                                int index = indexCounter++;
+                                return DataRow(
+                                  cells: [
+                                    DataCell(Text('$index')),
+                                    DataCell(
+                                      Text(
+                                        _formatDateTime(surat.createdAt),
+                                      ),
+                                    ),
+                                    DataCell(Text(surat.jenisSurat)),
+                                    DataCell(
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          // Implement action for Surat Izin Skripsi
+                                        },
+                                        child: Text("Detail"),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Text('Belum ada Pengajuan'),
+                      );
               }
             }),
           ],
