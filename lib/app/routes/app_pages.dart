@@ -9,12 +9,18 @@ import '../modules/home/views/complete_profile.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/pkl/bindings/pkl_binding.dart';
+import '../modules/pkl/views/pkl_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
+import '../modules/suket/bindings/suket_binding.dart';
+import '../modules/suket/views/suket_view.dart';
+import '../modules/unggahdok/bindings/unggahdok_binding.dart';
+import '../modules/unggahdok/views/unggahdok_view.dart';
 
 part 'app_routes.dart';
 
@@ -59,6 +65,21 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => DashboardView(),
       binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.SUKET,
+      page: () => const SuketView(),
+      binding: SuketBinding(),
+    ),
+    GetPage(
+      name: _Paths.PKL,
+      page: () => const PklView(),
+      binding: PklBinding(),
+    ),
+    GetPage(
+      name: _Paths.UNGGAHDOK,
+      page: () => const UnggahdokView(),
+      binding: UnggahdokBinding(),
     ),
   ];
 }
