@@ -10,6 +10,9 @@ abstract class Routes {
   static const SURAT = _Paths.SURAT;
   static const PROFILE = _Paths.PROFILE;
   static const DASHBOARD = _Paths.DASHBOARD;
+  static const SUKET = _Paths.SUKET;
+  static const PKL = _Paths.PKL;
+  static const UNGGAHDOK = _Paths.UNGGAHDOK;
 }
 
 abstract class _Paths {
@@ -21,4 +24,7 @@ abstract class _Paths {
   static const SURAT = '/surat';
   static const PROFILE = '/profile';
   static const DASHBOARD = '/dashboard';
+  static const SUKET = '/suket';
+  static const PKL = '/pkl';
+  static const UNGGAHDOK = '/unggahdok';
 }
