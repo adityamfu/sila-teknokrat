@@ -17,8 +17,6 @@ import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
-import '../modules/suket/bindings/suket_binding.dart';
-import '../modules/suket/views/suket_view.dart';
 import '../modules/unggahdok/bindings/unggahdok_binding.dart';
 import '../modules/unggahdok/views/unggahdok_view.dart';
 
@@ -65,11 +63,6 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => DashboardView(),
       binding: DashboardBinding(),
-    ),
-    GetPage(
-      name: _Paths.SUKET,
-      page: () => const SuketView(),
-      binding: SuketBinding(),
     ),
     GetPage(
       name: _Paths.PKL,
